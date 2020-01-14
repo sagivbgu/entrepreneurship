@@ -17,10 +17,10 @@ public class Song {
     private AudioClip audioClip;
 
     private Genre genre;
-    Duration duration;
-    int bpm;
-    Instant startedAt;
-    int playbackSpeed;
+    private Duration duration;
+    private int bpm;
+    private Instant startedAt;
+    private int playbackSpeed;
 
     public Song(String songFilePath) {
         this.songFilePath = songFilePath;
@@ -51,6 +51,11 @@ public class Song {
 
     public int getPlaybackSpeed() {
         return playbackSpeed;
+    }
+
+    public void play() {
+        audioClip.play();
+        startedAt = Instant.now();
     }
 
     private void setSongMetadata(Media media) {
