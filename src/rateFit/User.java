@@ -3,6 +3,7 @@ package rateFit;
 public class User {
     private Genre faveGenre;
     private double heartrate;
+    //test
 
     public User(Genre genre) {
         faveGenre = genre;

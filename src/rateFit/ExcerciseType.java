@@ -4,3 +4,4 @@ public enum ExcerciseType {
     FATLOSS,
     ENDURANCE
 }
+//git
