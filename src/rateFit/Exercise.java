@@ -10,10 +10,14 @@ public class Exercise {
     private User user;
     private SongsManager songsManager;
 
-    public Exercise(ExerciseType type, Duration duration, User user) {
+    public Exercise(ExerciseType type, Duration duration, User user, SongsManager songsManager) {
         this.type = type;
         this.duration = duration;
-        songsManager = new SongsManager();
+        songsManager = songsManager;
         this.user = user;
+    }
+
+    public void start() {
+
     }
 }
