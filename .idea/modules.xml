@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/RateFit/RateFit.iml" filepath="$PROJECT_DIR$/RateFit/RateFit.iml" />
       <module fileurl="file://$PROJECT_DIR$/entrepreneurship.iml" filepath="$PROJECT_DIR$/entrepreneurship.iml" />
     </modules>
   </component>
