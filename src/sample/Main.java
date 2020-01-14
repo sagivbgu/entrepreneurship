@@ -2,49 +2,30 @@ package sample;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import rateFit.User;
 
 public class Main extends Application {
-    private Parent root;
-    private Controller controller;
+    private ScreenController screenController = ScreenController.getInstance();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-//        Stage stage;
-//        root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//
-//        Scene scene = new Scene(root, 300, 275);
-//        primaryStage.setTitle("RateFit");
-//        primaryStage.setScene(scene);
-//        controller = new Controller(primaryStage);
-//        primaryStage.show();
-//        stage = primaryStage;
-        Label welcomeMsg = new Label("Hello Shlomi, welcome to RateFit");
-        Button btn = new Button("Start a workout");
-        GridPane root = new GridPane();
-        Scene scene = new Scene(root,300,300);
-        root.addRow(0, welcomeMsg);
-        root.addRow(1, btn);
-        primaryStage.setScene(scene);
+        User user = new User();
+        screenController.setUser(user);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("homeScreen.fxml"));
+        Parent root = loader.load();
+        Controller controller = loader.getController();
+        controller.setUser(user);
         primaryStage.setTitle("RateFit");
+        Scene scene = new Scene(root, 300, 275);
+        screenController.addScene(scene);
+        screenController.addScreen("home","homeScreen.fxml");
+        screenController.addScreen("genreScreen","genreScreen.fxml");
+        screenController.addScreen("typeScreen","typeScreen.fxml");
+        primaryStage.setScene(scene);
         primaryStage.show();
-
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(ActionEvent arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        } );
     }
 
 
