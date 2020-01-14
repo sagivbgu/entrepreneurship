@@ -3,6 +3,7 @@ package rateFit;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class Exercise {
     private ExerciseType type;
@@ -19,13 +20,21 @@ public class Exercise {
     }
 
     public void start() {
-        /*Timer timer = new Timer();
-        timer.schedule(new SayHello(), 0, 5000);*/
-        exerciseLoop();
+        Timer timer = new Timer();
+
+        TimerTask exerciseLoop = new TimerTask() {
+            @Override
+            public void run() {
+                int desiredHeartrate = type.getDesiredHeartrate(Duration.between(Instant.now(), startTime).getSeconds());
+                songsManager.applySongAction(user.getHeartrate(), desiredHeartrate, user.getGenre());
+            }
+        };
+
+        timer.schedule(exerciseLoop, 0, 5000);
     }
 
-    private void exerciseLoop() {
-        int desiredHeartrate = type.getDesiredHeartrate(Duration.between(Instant.now(), startTime).getSeconds());
-        songsManager.applySongAction(user.getHeartrate(), desiredHeartrate, user.getGenre());
+    @Override
+    public String toString() {
+        return "type=" + type.getName() + ", duration=" + duration;
     }
 }
