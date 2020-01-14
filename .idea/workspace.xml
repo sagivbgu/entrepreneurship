@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Genre, Song, SongsManager classes added">
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Modification to">
+      <change afterPath="$PROJECT_DIR$/out/production/entrepreneurship/rateFit/Genre.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/entrepreneurship/rateFit/Song.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/entrepreneurship/rateFit/SongsManager.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/entrepreneurship/sample/Controller.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/entrepreneurship/sample/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/entrepreneurship/sample/sample.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entrepreneurship.iml" beforeDir="false" afterPath="$PROJECT_DIR$/entrepreneurship.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/sample/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/sample/sample.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,8 +94,8 @@
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1578998625698" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/javafx-sdk-13.0.1/lib" />
-    <property name="project.structure.last.edited" value="Libraries" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
   </component>
@@ -118,7 +126,7 @@
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="sample.Main" />
       <module name="entrepreneurship" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="VM_PARAMETERS" value="-p C:\Users\SLap\IdeaProjects\entrepreneurship\resources\javafx-sdk-13.0.1\lib --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="sample.*" />
@@ -192,7 +200,7 @@
       <option name="presentableId" value="Default" />
       <updated>1359379246138</updated>
       <workItem from="1359379250712" duration="1302000" />
-      <workItem from="1578998892756" duration="596000" />
+      <workItem from="1578998892756" duration="2179000" />
     </task>
     <task id="LOCAL‎00001" summary="Genre, Song, SongsManager classes added">
       <created>1578999253515</created>
@@ -200,7 +208,13 @@
       <option name="presentableId" value="LOCAL‎00001" />
       <updated>1578999253515</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL‎00002" summary="Added JavaFX lib to resources">
+      <created>1578999674676</created>
+      <option name="number" value="LOCAL‎00002" />
+      <option name="presentableId" value="LOCAL‎00002" />
+      <updated>1578999674676</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,25 +224,46 @@
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
     <MESSAGE value="Genre, Song, SongsManager classes added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Genre, Song, SongsManager classes added" />
+    <MESSAGE value="Added JavaFX lib to resources" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added JavaFX lib to resources" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="301" y="0" key="CommitChangelistDialog2" timestamp="1578999250999">
+    <state x="137" y="20" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1579000976622">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="301" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1578999250999" />
+    <state x="137" y="20" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1366.728@0.0.1366.728" timestamp="1579000976622" />
+    <state x="301" y="0" key="CommitChangelistDialog2" timestamp="1579001108719">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="301" y="0" key="CommitChangelistDialog2/0.0.1366.728@0.0.1366.728" timestamp="1579001108719" />
     <state x="389" y="106" key="FileChooserDialogImpl" timestamp="1578999486301">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="389" y="106" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1578999486301" />
-    <state x="163" y="0" key="SettingsEditor" timestamp="1578999502505">
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom" timestamp="1579000824120">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="163" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1578999502505" />
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1578999257124">
+    <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1579000824120" />
+    <state width="1323" height="179" key="GridCell.Tab.0.center" timestamp="1579000824120">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
-    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1578999257124" />
+    <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1579000824120" />
+    <state width="1323" height="179" key="GridCell.Tab.0.left" timestamp="1579000824120">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1579000824120" />
+    <state width="1323" height="179" key="GridCell.Tab.0.right" timestamp="1579000824120">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1579000824120" />
+    <state x="163" y="0" key="SettingsEditor" timestamp="1579000291000">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="163" y="0" key="SettingsEditor/0.0.1366.728@0.0.1366.728" timestamp="1579000291000" />
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2" timestamp="1578999676848">
+      <screen x="0" y="0" width="1366" height="728" />
+    </state>
+    <state x="275" y="98" key="Vcs.Push.Dialog.v2/0.0.1366.728@0.0.1366.728" timestamp="1578999676848" />
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
