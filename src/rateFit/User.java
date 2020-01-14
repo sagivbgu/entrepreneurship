@@ -4,9 +4,16 @@ public class User {
     private Genre faveGenre;
     private double heartrate;
 
-    public User(Genre favouriteGenre) {
-        faveGenre = favouriteGenre;
+    public User() {
         heartrate = 60.0;
+    }
+
+    public void setGenre (Genre genre) {
+        faveGenre = genre;
+    }
+
+    public Genre getGenre() {
+        return faveGenre;
     }
 
     public double getHeartrate() {
