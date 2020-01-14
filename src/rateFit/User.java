@@ -16,8 +16,8 @@ public class User {
         return faveGenre;
     }
 
-    public double getHeartrate() {
-        return heartrate;
+    public int getHeartrate() {
+        return (int) heartrate;
     }
 
     public void setHeartrate(int currentSongBpm) {
