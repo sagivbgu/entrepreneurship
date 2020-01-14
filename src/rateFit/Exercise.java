@@ -25,8 +25,12 @@ public class Exercise {
         TimerTask exerciseLoop = new TimerTask() {
             @Override
             public void run() {
-                int desiredHeartrate = type.getDesiredHeartrate(Duration.between(Instant.now(), startTime).getSeconds());
-                songsManager.applySongAction(user.getHeartrate(), desiredHeartrate, user.getGenre());
+                if (Duration.between(Instant.now(), startTime).toMinutes() > duration.toMinutes()) {
+                    this.cancel();
+                } else {
+                    int desiredHeartrate = type.getDesiredHeartrate(Duration.between(Instant.now(), startTime).getSeconds());
+                    songsManager.applySongAction(user.getHeartrate(), desiredHeartrate, user.getGenre());
+                }
             }
         };
 
@@ -35,6 +39,6 @@ public class Exercise {
 
     @Override
     public String toString() {
-        return "type=" + type.getName() + ", duration=" + duration;
+        return "type=" + type.getName() + ", duration in minutes=" + duration.toMinutes();
     }
 }
