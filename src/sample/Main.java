@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import rateFit.SongsManager;
 import rateFit.User;
 
 public class Main extends Application {
@@ -13,7 +14,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         User user = new User();
+        SongsManager songsManager = new SongsManager("O:\\null");
         screenController.setUser(user);
+        screenController.setSongsManager(songsManager);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("homeScreen.fxml"));
         Parent root = loader.load();
         Controller controller = loader.getController();

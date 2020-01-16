@@ -51,6 +51,10 @@ public class ScreenController {
         main = scene;
     }
 
+    public void setSongsManager(SongsManager songsManager) {
+        this.songsManager = songsManager;
+    }
+
     protected void addScreen(String name, String fxml){
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         Parent pane = null;
@@ -137,7 +141,7 @@ public class ScreenController {
         root.setVgap(10);
         Label msg = new Label("Exercise is underway");
         root.addRow(0, msg);
-        Task task = new Task<Void>() {
+        Task progressbar = new Task<Void>() {
             @Override public Void call() {
                 final long max = exercise.getDuration().toSeconds();
                 long currTime = 0;
@@ -157,12 +161,24 @@ public class ScreenController {
                 return null;
             }
         };
+        Task songs = new Task<Void>() {
+            @Override public Void call() {
+                while (!isCancelled()) {
+                    updateMessage("Current song: " + exercise.getSongsManager().getCurrentSong().getName());
+                }
+                return null;
+            }
+        };
         ProgressBar bar = new ProgressBar();
-        bar.progressProperty().bind(task.progressProperty());
+        bar.progressProperty().bind(progressbar.progressProperty());
         root.addRow(1, bar);
         main.setRoot(root);
-//        Label song = new Label("Current song: " + exercise.getSongsManager().getCurrentSong().getName());
-//        root.addRow(2, song);
-        new Thread(task).start();
+        if (exercise.getSongsManager().getCurrentSong() != null) {
+            Label song = new Label("Current song: " + exercise.getSongsManager().getCurrentSong().getName());
+            song.textProperty().bind(songs.messageProperty());
+            root.addRow(2, song);
+            new Thread(songs).start();
+        }
+        new Thread(progressbar).start();
     }
 }
