@@ -4,18 +4,20 @@ package rateFit;
 import javafx.collections.MapChangeListener;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.io.File;
 import java.time.Instant;
+import java.util.Map;
 
 public class Song {
     final static String POP_GENRE_NAME = "Pop";
     final static String ROCK_GENRE_NAME = "Rock";
-    final static String BPM_TAG_NAME = "track count";
+    final static String BPM_TAG_NAME = "year";
 
     private String songFilePath;
-    private AudioClip audioClip;
+    private MediaPlayer mediaPlayer;
 
     private Genre genre;
     private Duration duration;
@@ -25,8 +27,8 @@ public class Song {
 
     public Song(String songFilePath) {
         this.songFilePath = new File(songFilePath).toURI().toString();
-        setSongMetadata(new Media(this.songFilePath));
-        audioClip = new AudioClip(this.songFilePath);
+        mediaPlayer = new MediaPlayer(new Media(this.songFilePath));
+        setSongMetadata(mediaPlayer);
         startedAt = null;
     }
 
@@ -55,26 +57,30 @@ public class Song {
     }
 
     public void play() {
-        audioClip.play();
+        mediaPlayer.play();
         startedAt = Instant.now();
     }
 
-    private void setSongMetadata(Media media) {
-        media.getMetadata().addListener((MapChangeListener<String, Object>) change -> {
-            if (change.wasAdded()) {
-                if ("duration".equals(change.getKey())) {
-                    duration = (Duration) change.getValueAdded();
-                } else if (BPM_TAG_NAME.equals(change.getKey())) {
-                    bpm = (Integer) change.getValueAdded();
-                } else if ("genre".equals(change.getKey())) {
-                    String genreName = change.getValueAdded().toString();
-                    if (genreName.equals(POP_GENRE_NAME))
-                        genre = Genre.POP;
-                    else if (genreName.equals(ROCK_GENRE_NAME))
-                        genre = Genre.ROCK;
-                    else
-                        genre = null;
+    private void setSongMetadata(MediaPlayer mediaPlayer) {
+        mediaPlayer.setOnReady(new Runnable() {
+            @Override
+            public void run() {
+                Media media = mediaPlayer.getMedia();
+                duration = media.getDuration();
+                for (Map.Entry<String, Object> entry : media.getMetadata().entrySet()){
+                    if (entry.getKey().equals("genre")){
+                        String genreName = entry.getValue().toString();
+                        if (genreName.equals(POP_GENRE_NAME))
+                            genre = Genre.POP;
+                        else if (genreName.equals(ROCK_GENRE_NAME))
+                            genre = Genre.ROCK;
+                        else
+                            genre = null;
                     }
+                    else if (entry.getKey().equals(BPM_TAG_NAME)){
+                        bpm = (Integer) entry.getValue();
+                    }
+                }
             }
         });
     }
