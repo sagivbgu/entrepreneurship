@@ -31,7 +31,7 @@ public class Exercise {
                     System.out.println("Stopping exercise");
                     this.cancel();
                 } else {
-                    int desiredHeartrate = type.getDesiredHeartrate(Duration.between(Instant.now(), startTime).getSeconds());
+                    int desiredHeartrate = type.getDesiredHeartrate(Duration.between(startTime, Instant.now()).getSeconds());
                     songsManager.applySongAction(user.getHeartrate(), desiredHeartrate, user.getGenre());
                     Song currentSong = songsManager.getCurrentSong();
                     user.updateHeartrate(currentSong.getBpm());

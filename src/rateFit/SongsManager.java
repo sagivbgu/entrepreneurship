@@ -17,10 +17,12 @@ public class SongsManager {
     }
 
     public void applySongAction(int currentHr, int desiredHr, Genre favouriteGenre) {
+        if (currentSong == null) {
+            switchSong(favouriteGenre, desiredHr);
+        }
         double heartrateRelation = (double) currentHr / desiredHr;
-        Duration timeSinceSongChosen = Duration.between(Instant.now(), currentSong.getStartedAt());
-        if (currentSong == null ||
-                (heartrateRelation > 0.9 && heartrateRelation < 1.1 && timeSinceSongChosen.toMinutes() > 1)) {
+        Duration timeSinceSongChosen = Duration.between(currentSong.getStartedAt(), Instant.now());
+        if (heartrateRelation > 0.9 && heartrateRelation < 1.1 && timeSinceSongChosen.toMinutes() > 1) {
             switchSong(favouriteGenre, desiredHr);
         }
     }

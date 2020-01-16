@@ -14,9 +14,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         User user = new User();
-        SongsManager songsManager = new SongsManager("O:\\null");
+        SongsManager songsManager = new SongsManager("C:\\Users\\liaru\\Downloads\\Songs");
         screenController.setUser(user);
         screenController.setSongsManager(songsManager);
+        screenController.setPrimaryStage(primaryStage);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("homeScreen.fxml"));
         Parent root = loader.load();
         Controller controller = loader.getController();

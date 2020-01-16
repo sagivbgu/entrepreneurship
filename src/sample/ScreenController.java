@@ -14,6 +14,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.converter.NumberStringConverter;
 import rateFit.Exercise;
 import rateFit.ExerciseType;
@@ -32,8 +34,10 @@ public class ScreenController {
     private Scene main;
     private User user;
     private Exercise exercise;
+    private ExerciseType exerciseType;
     private ArrayList<int[]> list;
     private SongsManager songsManager;
+    private Stage primaryStage;
 
     private ScreenController() {
 
@@ -53,6 +57,10 @@ public class ScreenController {
 
     public void setSongsManager(SongsManager songsManager) {
         this.songsManager = songsManager;
+    }
+
+    public void setPrimaryStage (Stage stage) {
+        primaryStage = stage;
     }
 
     protected void addScreen(String name, String fxml){
@@ -115,27 +123,31 @@ public class ScreenController {
             public void handle(ActionEvent arg0) {
                 if (button1.isSelected()) {
                     if (button3.isSelected()) {
-                        exercise = new Exercise(new ExerciseType("FAT LOSS", list), Duration.ofMinutes(5), user, songsManager);
+                        exerciseType = ExerciseType.FatLoss5min();
+                        exercise = new Exercise(exerciseType, Duration.ofMinutes(5), user, songsManager);
                     }
                     else {
-                        exercise = new Exercise(new ExerciseType("FAT LOSS", list), Duration.ofMinutes(10), user, songsManager);
+                        exerciseType = ExerciseType.FatLoss10min();
+                        exercise = new Exercise(exerciseType, Duration.ofMinutes(10), user, songsManager);
                     }
                 }
                 else {
                     if (button3.isSelected()) {
-                        exercise = new Exercise(new ExerciseType("ENDURANCE", list), Duration.ofMinutes(5), user, songsManager);
+                        exerciseType = ExerciseType.Endurance5min();
+                        exercise = new Exercise(exerciseType, Duration.ofMinutes(5), user, songsManager);
                     }
                     else {
-                        exercise = new Exercise(new ExerciseType("ENDURANCE", list), Duration.ofMinutes(10), user, songsManager);
+                        exerciseType = ExerciseType.Endurance10min();
+                        exercise = new Exercise(exerciseType, Duration.ofMinutes(10), user, songsManager);
                     }
                 }
-                setExersiceScreen();
+                setExerciseScreen();
             }
         } );
         return root;
     }
 
-    private void setExersiceScreen() {
+    private void setExerciseScreen() {
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
         root.setVgap(10);
@@ -154,7 +166,6 @@ public class ScreenController {
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
                     }
                     currTime = currTime + 5;
                 }
@@ -169,6 +180,19 @@ public class ScreenController {
                 return null;
             }
         };
+        Task heartrateProgress = new Task<Void>() {
+            @Override public Void call() {
+                while (!isCancelled()) {
+                    updateMessage("Current heartrate: " + user.getHeartrate());
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                    }
+
+                }
+                return null;
+            }
+        };
         ProgressBar bar = new ProgressBar();
         bar.progressProperty().bind(progressbar.progressProperty());
         root.addRow(1, bar);
@@ -179,6 +203,18 @@ public class ScreenController {
             root.addRow(2, song);
             new Thread(songs).start();
         }
+        Label heartrate = new Label("Current heartrate: 0");
+        heartrate.textProperty().bind(heartrateProgress.messageProperty());
+        root.addRow(3, heartrate);
+        exercise.start();
         new Thread(progressbar).start();
+        new Thread(heartrateProgress).start();
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent t) {
+                progressbar.cancel();
+                heartrateProgress.cancel();
+            }
+        });
     }
 }
