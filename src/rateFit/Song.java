@@ -1,8 +1,5 @@
 package rateFit;
 
-
-import javafx.collections.MapChangeListener;
-import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -16,7 +13,6 @@ public class Song {
     final static String ROCK_GENRE_NAME = "Rock";
     final static String BPM_TAG_NAME = "year";
 
-    private String songFilePath;
     private MediaPlayer mediaPlayer;
 
     private String name;
@@ -27,8 +23,8 @@ public class Song {
     private int playbackSpeed;
 
     public Song(String songFilePath) {
-        this.songFilePath = new File(songFilePath).toURI().toString();
-        mediaPlayer = new MediaPlayer(new Media(this.songFilePath));
+        String fullPath = new File(songFilePath).toURI().toString();
+        mediaPlayer = new MediaPlayer(new Media(fullPath));
         setSongMetadata(mediaPlayer);
         startedAt = null;
     }
@@ -62,14 +58,18 @@ public class Song {
         startedAt = Instant.now();
     }
 
+    public void stop() {
+        mediaPlayer.stop();
+    }
+
     private void setSongMetadata(MediaPlayer mediaPlayer) {
         mediaPlayer.setOnReady(new Runnable() {
             @Override
             public void run() {
                 Media media = mediaPlayer.getMedia();
                 duration = media.getDuration();
-                for (Map.Entry<String, Object> entry : media.getMetadata().entrySet()){
-                    if (entry.getKey().equals("genre")){
+                for (Map.Entry<String, Object> entry : media.getMetadata().entrySet()) {
+                    if (entry.getKey().equals("genre")) {
                         String genreName = entry.getValue().toString();
                         if (genreName.equals(POP_GENRE_NAME))
                             genre = Genre.POP;
@@ -77,11 +77,9 @@ public class Song {
                             genre = Genre.ROCK;
                         else
                             genre = null;
-                    }
-                    else if (entry.getKey().equals(BPM_TAG_NAME)){
+                    } else if (entry.getKey().equals(BPM_TAG_NAME)) {
                         bpm = (Integer) entry.getValue();
-                    }
-                    else if (entry.getKey().equals("title")){
+                    } else if (entry.getKey().equals("title")) {
                         name = entry.getValue().toString();
                     }
                 }

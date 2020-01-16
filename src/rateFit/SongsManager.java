@@ -1,7 +1,8 @@
 package rateFit;
 
+import javafx.util.Duration;
+
 import java.io.File;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,9 +21,16 @@ public class SongsManager {
         if (currentSong == null) {
             switchSong(favouriteGenre, desiredHr);
         }
+
+        Duration timeSinceSongChosen = new Duration(java.time.Duration.between(currentSong.getStartedAt(), Instant.now()).toMillis());
+        boolean songIsOver = currentSong.getDuration().toSeconds() - timeSinceSongChosen.toSeconds() < 1;
+
         double heartrateRelation = (double) currentHr / desiredHr;
-        Duration timeSinceSongChosen = Duration.between(currentSong.getStartedAt(), Instant.now());
-        if (heartrateRelation > 0.9 && heartrateRelation < 1.1 && timeSinceSongChosen.toMinutes() > 1) {
+        boolean heartrateOutOfBounds = heartrateRelation < 0.9 || heartrateRelation > 1.1;
+
+        boolean songIsOldEnough = timeSinceSongChosen.toMinutes() > 1;
+
+        if (songIsOver || (songIsOldEnough && heartrateOutOfBounds)) {
             switchSong(favouriteGenre, desiredHr);
         }
     }
@@ -34,6 +42,9 @@ public class SongsManager {
     private void switchSong(Genre genre, int desiredBpm) {
         Song nextSong = getNextSong(genre, desiredBpm);
         songs.remove(nextSong);
+        if (currentSong != null) {
+            currentSong.stop();
+        }
         nextSong.play();
         currentSong = nextSong;
     }
@@ -48,6 +59,10 @@ public class SongsManager {
                 .dropWhile(i -> songsOfGenre[i + 1].getBpm() < desiredBpm)
                 .limit(2)
                 .toArray();
+
+        if (closestSongsIndexes.length < 2) {
+            return songsOfGenre[songsOfGenre.length - 1];
+        }
 
         Song firstSong = songsOfGenre[closestSongsIndexes[0]];
         Song secondSong = songsOfGenre[closestSongsIndexes[1]];
