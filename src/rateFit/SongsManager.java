@@ -28,11 +28,15 @@ public class SongsManager {
         double heartrateRelation = (double) currentHr / desiredHr;
         boolean heartrateOutOfBounds = heartrateRelation < 0.9 || heartrateRelation > 1.1;
 
-        boolean songIsOldEnough = timeSinceSongChosen.toMinutes() > 1;
+        boolean songIsOldEnough = timeSinceSongChosen.toSeconds() > 30;
 
         if (songIsOver || (songIsOldEnough && heartrateOutOfBounds)) {
             switchSong(favouriteGenre, desiredHr);
         }
+    }
+
+    public void stopPlaying() {
+        this.currentSong.stop();
     }
 
     public Song getCurrentSong() {

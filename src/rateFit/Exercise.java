@@ -27,8 +27,9 @@ public class Exercise {
             @Override
             public void run() {
                 System.out.println("The current time is" + Instant.now());
-                if (Duration.between(Instant.now(), startTime).toMinutes() > duration.toMinutes()) {
+                if (Duration.between(startTime, Instant.now()).toMinutes() > duration.toMinutes()) {
                     System.out.println("Stopping exercise");
+                    stop();
                     this.cancel();
                 } else {
                     int desiredHeartrate = type.getDesiredHeartrate(Duration.between(startTime, Instant.now()).getSeconds());
@@ -63,5 +64,9 @@ public class Exercise {
 
     public SongsManager getSongsManager() {
         return songsManager;
+    }
+
+    private void stop() {
+        songsManager.stopPlaying();
     }
 }
