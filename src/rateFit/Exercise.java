@@ -20,11 +20,13 @@ public class Exercise {
     }
 
     public void start() {
+        this.startTime = Instant.now();
         Timer timer = new Timer();
 
         TimerTask exerciseLoop = new TimerTask() {
             @Override
             public void run() {
+                System.out.println("The current time is" + Instant.now());
                 if (Duration.between(Instant.now(), startTime).toMinutes() > duration.toMinutes()) {
                     System.out.println("Stopping exercise");
                     this.cancel();
@@ -45,5 +47,17 @@ public class Exercise {
     @Override
     public String toString() {
         return "type=" + type.getName() + ", duration in minutes=" + duration.toMinutes();
+    }
+
+    public Instant getStartTime() {
+        return startTime;
+    }
+
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public SongsManager getSongsManager() {
+        return songsManager;
     }
 }

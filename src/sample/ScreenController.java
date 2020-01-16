@@ -1,7 +1,9 @@
 package sample;
 
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.util.converter.NumberStringConverter;
 import rateFit.Exercise;
 import rateFit.ExerciseType;
 import rateFit.SongsManager;
@@ -19,6 +22,7 @@ import rateFit.User;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -105,7 +109,6 @@ public class ScreenController {
 
             @Override
             public void handle(ActionEvent arg0) {
-                System.out.println("Button clicked");
                 if (button1.isSelected()) {
                     if (button3.isSelected()) {
                         exercise = new Exercise(new ExerciseType("FAT LOSS", list), Duration.ofMinutes(5), user, songsManager);
@@ -114,7 +117,7 @@ public class ScreenController {
                         exercise = new Exercise(new ExerciseType("FAT LOSS", list), Duration.ofMinutes(10), user, songsManager);
                     }
                 }
-                if (button2.isSelected()) {
+                else {
                     if (button3.isSelected()) {
                         exercise = new Exercise(new ExerciseType("ENDURANCE", list), Duration.ofMinutes(5), user, songsManager);
                     }
@@ -122,9 +125,44 @@ public class ScreenController {
                         exercise = new Exercise(new ExerciseType("ENDURANCE", list), Duration.ofMinutes(10), user, songsManager);
                     }
                 }
-                System.out.println(exercise.toString());
+                setExersiceScreen();
             }
         } );
         return root;
+    }
+
+    private void setExersiceScreen() {
+        GridPane root = new GridPane();
+        root.setAlignment(Pos.CENTER);
+        root.setVgap(10);
+        Label msg = new Label("Exercise is underway");
+        root.addRow(0, msg);
+        Task task = new Task<Void>() {
+            @Override public Void call() {
+                final long max = exercise.getDuration().toSeconds();
+                long currTime = 0;
+                while (currTime < max) {
+                    if (isCancelled()) {
+                        break;
+                    }
+                    System.out.println(currTime);
+                    updateProgress(currTime, max);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    currTime = currTime + 5;
+                }
+                return null;
+            }
+        };
+        ProgressBar bar = new ProgressBar();
+        bar.progressProperty().bind(task.progressProperty());
+        root.addRow(1, bar);
+        main.setRoot(root);
+//        Label song = new Label("Current song: " + exercise.getSongsManager().getCurrentSong().getName());
+//        root.addRow(2, song);
+        new Thread(task).start();
     }
 }
