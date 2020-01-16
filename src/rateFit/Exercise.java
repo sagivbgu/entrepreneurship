@@ -21,7 +21,7 @@ public class Exercise {
 
     public void start() {
         this.startTime = Instant.now();
-        Timer timer = new Timer();
+        Timer timer = new Timer(true);
 
         TimerTask exerciseLoop = new TimerTask() {
             @Override
@@ -55,6 +55,10 @@ public class Exercise {
 
     public Duration getDuration() {
         return duration;
+    }
+
+    public ExerciseType getExerciseType() {
+        return type;
     }
 
     public SongsManager getSongsManager() {

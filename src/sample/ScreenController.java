@@ -148,6 +148,7 @@ public class ScreenController {
     }
 
     private void setExerciseScreen() {
+        exercise.start();
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
         root.setVgap(10);
@@ -175,6 +176,7 @@ public class ScreenController {
         Task songs = new Task<Void>() {
             @Override public Void call() {
                 while (!isCancelled()) {
+                    if (exercise.getSongsManager().getCurrentSong() != null)
                     updateMessage("Current song: " + exercise.getSongsManager().getCurrentSong().getName());
                 }
                 return null;
@@ -183,7 +185,7 @@ public class ScreenController {
         Task heartrateProgress = new Task<Void>() {
             @Override public Void call() {
                 while (!isCancelled()) {
-                    updateMessage("Current heartrate: " + user.getHeartrate());
+                    updateMessage("Current heartrate: " + user.getHeartrate() +"\nDesired heartreate: " + exercise.getExerciseType().getDesiredHeartrate(Duration.between(exercise.getStartTime(), Instant.now()).getSeconds()));
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
@@ -197,22 +199,20 @@ public class ScreenController {
         bar.progressProperty().bind(progressbar.progressProperty());
         root.addRow(1, bar);
         main.setRoot(root);
-        if (exercise.getSongsManager().getCurrentSong() != null) {
-            Label song = new Label("Current song: " + exercise.getSongsManager().getCurrentSong().getName());
-            song.textProperty().bind(songs.messageProperty());
-            root.addRow(2, song);
-            new Thread(songs).start();
-        }
-        Label heartrate = new Label("Current heartrate: 0");
+        Label song = new Label("Current song: ");
+        song.textProperty().bind(songs.messageProperty());
+        root.addRow(2, song);
+        Label heartrate = new Label("Current heartrate: 0\nDesired heartrate: 0");
         heartrate.textProperty().bind(heartrateProgress.messageProperty());
         root.addRow(3, heartrate);
-        exercise.start();
         new Thread(progressbar).start();
+        new Thread(songs).start();
         new Thread(heartrateProgress).start();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
                 progressbar.cancel();
+                songs.cancel();
                 heartrateProgress.cancel();
             }
         });

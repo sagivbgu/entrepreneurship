@@ -19,6 +19,7 @@ public class Song {
     private String songFilePath;
     private MediaPlayer mediaPlayer;
 
+    private String name;
     private Genre genre;
     private Duration duration;
     private int bpm;
@@ -33,7 +34,7 @@ public class Song {
     }
 
     public String getName() {
-        return songFilePath;
+        return name;
     }
 
     public Genre getGenre() {
@@ -79,6 +80,9 @@ public class Song {
                     }
                     else if (entry.getKey().equals(BPM_TAG_NAME)){
                         bpm = (Integer) entry.getValue();
+                    }
+                    else if (entry.getKey().equals("title")){
+                        name = entry.getValue().toString();
                     }
                 }
             }
