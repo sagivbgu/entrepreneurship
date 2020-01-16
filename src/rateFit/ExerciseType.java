@@ -19,7 +19,6 @@ public class ExerciseType {
         int i = 0;
         while (i < secondsToDesiredHeartrate.size() && secondsToDesiredHeartrate.get(i)[0] <= timeSinceStart) {
             i++;
-            System.out.println("Hey I'm in the while loop! i value is: " + i);
         }
 
         return secondsToDesiredHeartrate.get(i - 1)[1];
