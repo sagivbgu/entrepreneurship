@@ -8,7 +8,7 @@ public class User {
         heartrate = 60.0;
     }
 
-    public void setGenre (Genre genre) {
+    public void setGenre(Genre genre) {
         faveGenre = genre;
     }
 
@@ -21,6 +21,7 @@ public class User {
     }
 
     public void updateHeartrate(int currentSongBpm) {
-        heartrate = (heartrate + currentSongBpm) / 2;
+        int difference = currentSongBpm - (int) heartrate;
+        heartrate = heartrate + difference / 4.0;
     }
 }
