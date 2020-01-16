@@ -1,8 +1,5 @@
 package sample;
 
-import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -27,6 +24,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class ScreenController {
     private static ScreenController instance = null;
@@ -151,9 +150,8 @@ public class ScreenController {
         exercise.start();
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
-        root.setVgap(10);
-        Label msg = new Label("Exercise is underway");
-        root.addRow(0, msg);
+        root.setVgap(5);
+        root.getStylesheets().add("stylesheet.css");
         Task progressbar = new Task<Void>() {
             @Override public Void call() {
                 final long max = exercise.getDuration().toSeconds();
@@ -172,7 +170,15 @@ public class ScreenController {
                 return null;
             }
         };
-        Task songs = new Task<Void>() {
+        Task timertask = new Task<Void>() {
+            @Override public Void call() {
+                while (!isCancelled()) {
+                    updateMessage(formatDuration(Duration.between(exercise.getStartTime(), Instant.now())));
+                }
+                return null;
+            }
+        };
+        Task songsname = new Task<Void>() {
             @Override public Void call() {
                 while (!isCancelled()) {
                     if (exercise.getSongsManager().getCurrentSong() != null)
@@ -181,10 +187,19 @@ public class ScreenController {
                 return null;
             }
         };
+        Task songsbpm = new Task<Void>() {
+            @Override public Void call() {
+                while (!isCancelled()) {
+                    if (exercise.getSongsManager().getCurrentSong() != null)
+                        updateMessage("BPM: " + exercise.getSongsManager().getCurrentSong().getBpm());
+                }
+                return null;
+            }
+        };
         Task heartrateProgress = new Task<Void>() {
             @Override public Void call() {
                 while (!isCancelled()) {
-                    updateMessage("Current heartrate: " + user.getHeartrate() +"\nDesired heartreate: " + exercise.getExerciseType().getDesiredHeartrate(Duration.between(exercise.getStartTime(), Instant.now()).getSeconds()));
+                    updateMessage("Current HR: " + user.getHeartrate() +"\nDesired HR: " + exercise.getExerciseType().getDesiredHeartrate(Duration.between(exercise.getStartTime(), Instant.now()).getSeconds()));
                     try {
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
@@ -196,24 +211,46 @@ public class ScreenController {
         };
         ProgressBar bar = new ProgressBar();
         bar.progressProperty().bind(progressbar.progressProperty());
-        root.addRow(1, bar);
+        root.addRow(12, bar);
         main.setRoot(root);
         Label song = new Label(" ");
-        song.textProperty().bind(songs.messageProperty());
-        root.addRow(2, song);
+        song.setStyle("-fx-font-weight: bold");
+        song.textProperty().bind(songsname.messageProperty());
+        Label bpm = new Label(" ");
+        bpm.textProperty().bind(songsbpm.messageProperty());
+        root.addRow(1, song);
+        root.addRow(2, bpm);
         Label heartrate = new Label("Current heartrate: 0\nDesired heartrate: 0");
         heartrate.textProperty().bind(heartrateProgress.messageProperty());
-        root.addRow(3, heartrate);
+        root.addRow(5, heartrate);
+        Label duration = new Label ("");
+        duration.textProperty().bind(timertask.messageProperty());
+        root.addRow(13, duration);
         new Thread(progressbar).start();
-        new Thread(songs).start();
+        new Thread(songsname).start();
+        new Thread(songsbpm).start();
         new Thread(heartrateProgress).start();
+        new Thread(timertask).start();
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
                 progressbar.cancel();
-                songs.cancel();
+                songsname.cancel();
+                songsbpm.cancel();
                 heartrateProgress.cancel();
+                timertask.cancel();
             }
         });
+    }
+
+    public static String formatDuration(Duration duration) {
+        long seconds = duration.getSeconds();
+        long absSeconds = Math.abs(seconds);
+        String positive = String.format(
+                "%d:%02d:%02d",
+                absSeconds / 3600,
+                (absSeconds % 3600) / 60,
+                absSeconds % 60);
+        return seconds < 0 ? "-" + positive : positive;
     }
 }
