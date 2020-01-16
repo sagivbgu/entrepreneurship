@@ -173,6 +173,10 @@ public class ScreenController {
         Task timertask = new Task<Void>() {
             @Override public Void call() {
                 while (!isCancelled()) {
+                    if (Duration.between(exercise.getStartTime(), Instant.now()).toMinutes() >= exercise.getDuration().toMinutes()) {
+                        System.out.println("EXERCISE IS OVER!!!!!");
+                        this.cancel();
+                    }
                     updateMessage(formatDuration(Duration.between(exercise.getStartTime(), Instant.now())));
                 }
                 return null;

@@ -27,7 +27,7 @@ public class Exercise {
             @Override
             public void run() {
                 System.out.println("The current time is" + Instant.now());
-                if (Duration.between(startTime, Instant.now()).toMinutes() > duration.toMinutes()) {
+                if (Duration.between(startTime, Instant.now()).toMinutes() >= duration.toMinutes()) {
                     System.out.println("Stopping exercise");
                     stop();
                     this.cancel();

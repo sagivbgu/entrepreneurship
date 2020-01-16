@@ -19,7 +19,7 @@ public class Main extends Application {
         screenController.setUser(user);
         screenController.setSongsManager(songsManager);
         screenController.setPrimaryStage(primaryStage);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("homeScreen.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("genreScreen.fxml"));
         Parent root = loader.load();
         Controller controller = loader.getController();
         controller.setUser(user);
