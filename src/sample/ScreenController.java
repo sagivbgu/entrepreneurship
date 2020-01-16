@@ -148,6 +148,7 @@ public class ScreenController {
     }
 
     private void setExerciseScreen() {
+        //Hey!
         exercise.start();
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
