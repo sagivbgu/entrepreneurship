@@ -10,11 +10,12 @@ import rateFit.User;
 
 public class Main extends Application {
     private ScreenController screenController = ScreenController.getInstance();
+    final String songsPath = "C:\\Users\\liaru\\Downloads\\Songs";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         User user = new User();
-        SongsManager songsManager = new SongsManager("C:\\Users\\liaru\\Downloads\\Songs");
+        SongsManager songsManager = new SongsManager(songsPath);
         screenController.setUser(user);
         screenController.setSongsManager(songsManager);
         screenController.setPrimaryStage(primaryStage);

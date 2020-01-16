@@ -148,7 +148,6 @@ public class ScreenController {
     }
 
     private void setExerciseScreen() {
-        //Hey!
         exercise.start();
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
@@ -163,7 +162,6 @@ public class ScreenController {
                     if (isCancelled()) {
                         break;
                     }
-                    System.out.println(currTime);
                     updateProgress(currTime, max);
                     try {
                         Thread.sleep(5000);
@@ -178,7 +176,7 @@ public class ScreenController {
             @Override public Void call() {
                 while (!isCancelled()) {
                     if (exercise.getSongsManager().getCurrentSong() != null)
-                    updateMessage("Current song: " + exercise.getSongsManager().getCurrentSong().getName());
+                    updateMessage(exercise.getSongsManager().getCurrentSong().getName());
                 }
                 return null;
             }
@@ -200,7 +198,7 @@ public class ScreenController {
         bar.progressProperty().bind(progressbar.progressProperty());
         root.addRow(1, bar);
         main.setRoot(root);
-        Label song = new Label("Current song: ");
+        Label song = new Label(" ");
         song.textProperty().bind(songs.messageProperty());
         root.addRow(2, song);
         Label heartrate = new Label("Current heartrate: 0\nDesired heartrate: 0");
