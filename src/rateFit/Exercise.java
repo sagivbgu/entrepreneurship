@@ -15,7 +15,7 @@ public class Exercise {
     public Exercise(ExerciseType type, Duration duration, User user, SongsManager songsManager) {
         this.type = type;
         this.duration = duration;
-        songsManager = songsManager;
+        this.songsManager = songsManager;
         this.user = user;
     }
 
@@ -26,15 +26,20 @@ public class Exercise {
             @Override
             public void run() {
                 if (Duration.between(Instant.now(), startTime).toMinutes() > duration.toMinutes()) {
+                    System.out.println("Stopping exercise");
                     this.cancel();
                 } else {
                     int desiredHeartrate = type.getDesiredHeartrate(Duration.between(Instant.now(), startTime).getSeconds());
                     songsManager.applySongAction(user.getHeartrate(), desiredHeartrate, user.getGenre());
+                    Song currentSong = songsManager.getCurrentSong();
+                    user.updateHeartrate(currentSong.getBpm());
+
+                    System.out.println("HR: " + user.getHeartrate() + " Song BPM: " + currentSong.getBpm() + " Song: " + currentSong.getName());
                 }
             }
         };
 
-        timer.schedule(exerciseLoop, 0, 5000);
+        timer.schedule(exerciseLoop, 0, 2000);
     }
 
     @Override

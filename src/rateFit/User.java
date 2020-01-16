@@ -20,7 +20,7 @@ public class User {
         return (int) heartrate;
     }
 
-    public void setHeartrate(int currentSongBpm) {
+    public void updateHeartrate(int currentSongBpm) {
         heartrate = (heartrate + currentSongBpm) / 2;
     }
 }

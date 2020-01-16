@@ -25,6 +25,10 @@ public class SongsManager {
         }
     }
 
+    public Song getCurrentSong() {
+        return currentSong;
+    }
+
     private void switchSong(Genre genre, int desiredBpm) {
         Song nextSong = getNextSong(genre, desiredBpm);
         songs.remove(nextSong);

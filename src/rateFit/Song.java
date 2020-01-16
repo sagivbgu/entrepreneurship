@@ -6,6 +6,7 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.time.Instant;
 
 public class Song {
@@ -23,9 +24,9 @@ public class Song {
     private int playbackSpeed;
 
     public Song(String songFilePath) {
-        this.songFilePath = songFilePath;
-        setSongMetadata(new Media(songFilePath));
-        audioClip = new AudioClip(songFilePath);
+        this.songFilePath = new File(songFilePath).toURI().toString();
+        setSongMetadata(new Media(this.songFilePath));
+        audioClip = new AudioClip(this.songFilePath);
         startedAt = null;
     }
 
