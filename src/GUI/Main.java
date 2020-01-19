@@ -10,7 +10,7 @@ import rateFit.User;
 
 public class Main extends Application {
     private ScreenController screenController = ScreenController.getInstance();
-    final String songsPath = "C:\\Users\\liaru\\Downloads\\Songs";
+    final String songsPath = "Songs";
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -26,7 +26,6 @@ public class Main extends Application {
         primaryStage.setTitle("RateFit");
         Scene scene = new Scene(root, 300, 275);
         screenController.addScene(scene);
-        screenController.addScreen("home","homeScreen.fxml");
         screenController.addScreen("genreScreen","genreScreen.fxml");
         screenController.addScreen("typeScreen","typeScreen.fxml");
         primaryStage.setScene(scene);
