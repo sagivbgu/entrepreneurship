@@ -1,4 +1,4 @@
-package sample;
+package GUI;
 
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -8,24 +8,23 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.converter.NumberStringConverter;
 import rateFit.Exercise;
 import rateFit.ExerciseType;
 import rateFit.SongsManager;
 import rateFit.User;
+import javafx.scene.image.ImageView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ScreenController {
     private static ScreenController instance = null;
@@ -148,7 +147,14 @@ public class ScreenController {
 
     private void setExerciseScreen() {
         exercise.start();
+        Image logo = null;
+        try {
+            logo = new Image(new FileInputStream("resources/ratefitsmalllogo.png"));
+        } catch (FileNotFoundException e) {
+        }
+        ImageView imageView = new ImageView(logo);
         GridPane root = new GridPane();
+        root.getChildren().add(imageView);
         root.setAlignment(Pos.CENTER);
         root.setVgap(5);
         root.getStylesheets().add("stylesheet.css");
@@ -174,7 +180,6 @@ public class ScreenController {
             @Override public Void call() {
                 while (!isCancelled()) {
                     if (Duration.between(exercise.getStartTime(), Instant.now()).toMinutes() >= exercise.getDuration().toMinutes()) {
-                        System.out.println("EXERCISE IS OVER!!!!!");
                         this.cancel();
                     }
                     updateMessage(formatDuration(Duration.between(exercise.getStartTime(), Instant.now())));

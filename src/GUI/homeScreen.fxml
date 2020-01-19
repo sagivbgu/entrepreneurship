@@ -7,7 +7,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.layout.HBox?>
-<GridPane fx:controller="sample.Controller"
+<GridPane fx:controller="GUI.Controller"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-
+    <Text text="Welcome Shlomi, let's go for a run!"
+          GridPane.columnIndex="0" GridPane.rowIndex="0"
+          GridPane.columnSpan="2"/>
+    <HBox spacing="10" alignment="center"
+          GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <Button text="Start a workout"
+                onAction="#handleHomeButtonAction"/>
+    </HBox>
 </GridPane>
